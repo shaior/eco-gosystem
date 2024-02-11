@@ -1,0 +1,16 @@
+--- 
+- name: run single telco test on openshift-ci
+  hosts: localhost
+  vars:
+    KUBECONFIG_PATH: /home/kni/clusterconfigs/helix39/auth/kubeconfig
+  tasks: 
+
+    - name: verify ginkgo is installed
+      ansible.builtin.shell: "../scripts/install-ginkgo.sh"
+
+    - name: run single powermanagement test
+      command: chdir=/eco-gosystem/tests/ranfunc/powermanagement ginkgo --focus="Enable powersave at node level and then enable performance at node level"
+      environment:
+        KUBECONFIG_SPOKE1="{{ KUBECONFIG_PATH }}"
+        KUBECONFIG="{{ KUBECONFIG_PATH }}"
+        ECO_VERBOSE_LEVEL=100
