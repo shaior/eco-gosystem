@@ -1,16 +1,23 @@
 --- 
 - name: run single telco test on openshift-ci
-  hosts: localhost
+  hosts: registry.kni-qe-41.lab.eng.tlv2.redhat.com
+  remote_user: kni
   vars:
-    KUBECONFIG_PATH: /home/kni/clusterconfigs/helix39/auth/kubeconfig
+    kubeconfig: /home/kni/clusterconfigs/helix39/auth/kubeconfig
+    ansible_ssh_private_key_file: "~/.ssh/my_key"
   tasks: 
+    - name: clone eco-gosystem repo
+      ansible.builtin.git:
+        repo: https://github.com/shaior/eco-gosystem.git
+        version: telco-ci-init
+        dest: /home/kni/eco-gosystem
 
     - name: verify ginkgo is installed
-      ansible.builtin.shell: "../scripts/install-ginkgo.sh"
+      ansible.builtin.shell: chdir=/home/kni/eco-gosystem/scripts ./install-ginkgo.sh
 
     - name: run single powermanagement test
-      command: chdir=/eco-gosystem/tests/ranfunc/powermanagement ginkgo --focus="Enable powersave at node level and then enable performance at node level"
+      ansible.builtin.command: chdir=/home/kni/eco-gosystem/tests/ranfunc/powermanagement ginkgo --focus="Enable powersave at node level and then enable performance at node level"
       environment:
-        KUBECONFIG_SPOKE1="{{ KUBECONFIG_PATH }}"
-        KUBECONFIG="{{ KUBECONFIG_PATH }}"
-        ECO_VERBOSE_LEVEL=100
+        KUBECONFIG_SPOKE1: "{{ kubeconfig }}"
+        KUBECONFIG: "{{ kubeconfig }}"
+        ECO_VERBOSE_LEVEL: 100
