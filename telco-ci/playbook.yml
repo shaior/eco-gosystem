@@ -1,6 +1,6 @@
 --- 
 - name: run single telco test on openshift-ci
-  hosts: registry.kni-qe-41.lab.eng.tlv2.redhat.com
+  hosts: kniqe41
   remote_user: kni
   vars:
     kubeconfig: /home/kni/clusterconfigs/helix39/auth/kubeconfig

@@ -1,0 +1,5 @@
+---
+kniqe:
+  hosts:
+    kniqe41:
+      ansible_host: 10.46.189.1
