@@ -14,4 +14,4 @@ export ECO_VERBOSE_LEVEL=100
 
 # Run powermanagement test.
 cd ../tests/ranfunc/powermanagement
-ginkgo --focus="Enable powersave at node level and then enable performance at node level"
+ginkgo --focus="Enable powersave at node level and then enable performance at node level"  > /home/kni/job_log.yaml
