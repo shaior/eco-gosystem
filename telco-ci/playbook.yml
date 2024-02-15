@@ -10,7 +10,7 @@
       ansible.builtin.shell: chdir=/home/kni/eco-gosystem/scripts ./install-ginkgo.sh
 
     - name: run single powermanagement test
-      ansible.builtin.command: chdir=/home/kni/eco-gosystem/tests/ranfunc/powermanagement ginkgo --focus="Enable powersave at node level and then enable performance at node level"
+      ansible.builtin.command: chdir=/home/kni/eco-gosystem/tests/ranfunc/powermanagement ginkgo --focus="Enable powersave at node level and then enable performance at node level" > /home/kni/job_log.yaml
       environment:
         KUBECONFIG_SPOKE1: "{{ kubeconfig }}"
         KUBECONFIG: "{{ kubeconfig }}"
