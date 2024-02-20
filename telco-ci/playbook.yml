@@ -4,7 +4,6 @@
   remote_user: kni
   vars:
     kubeconfig: /home/kni/clusterconfigs/helix39/auth/kubeconfig
-    ansible_ssh_private_key_file: ~/key
   tasks: 
     - name: verify ginkgo is installed
       ansible.builtin.shell: chdir=/home/kni/eco-gosystem/scripts ./install-ginkgo.sh
