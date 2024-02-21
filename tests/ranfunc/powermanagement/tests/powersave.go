@@ -48,7 +48,7 @@ var _ = Describe("Per-Core Runtime Tuning of power states - CRI-O", Ordered, fun
 		Expect(err).ToNot(HaveOccurred())
 		snoNode = nodeList[0].Object
 
-		// originPerformanceProfileSpec = perfProfile.Object.Spec
+		originPerformanceProfileSpec = perfProfile.Object.Spec
 		Expect(err).ToNot(HaveOccurred())
 	})
 
