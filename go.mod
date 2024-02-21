@@ -23,6 +23,7 @@ require (
 	open-cluster-management.io/config-policy-controller v0.12.0
 	open-cluster-management.io/governance-policy-propagator v0.12.0
 	open-cluster-management.io/multicloud-operators-subscription v0.11.0
+	sigs.k8s.io/controller-runtime v0.16.3
 )
 
 require (
@@ -183,7 +184,6 @@ require (
 	k8s.io/kube-openapi v0.0.0-20231010175941-2dd684a91f00 // indirect
 	k8s.io/kubectl v0.28.3 // indirect
 	k8s.io/kubelet v0.27.7 // indirect
-	sigs.k8s.io/controller-runtime v0.16.3 // indirect
 	sigs.k8s.io/json v0.0.0-20221116044647-bc3834ca7abd // indirect
 	sigs.k8s.io/kube-storage-version-migrator v0.0.6-0.20230721195810-5c8923c5ff96 // indirect
 	sigs.k8s.io/kustomize/api v0.13.5-0.20230601165947-6ce0bf390ce3 // indirect

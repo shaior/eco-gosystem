@@ -57,7 +57,7 @@ var _ = Describe("Per-Core Runtime Tuning of power states - CRI-O", Ordered, fun
 		glog.V(100).Infof("Restore performance profile to original specs")
 		perfProfile.Definition.Spec = originPerformanceProfileSpec
 
-		_, err := perfProfile.Update(true)
+		_, err := perfProfile.Update(false)
 		Expect(err).ToNot(HaveOccurred())
 		mcp, err := mco.Pull(ranfuncinittools.HubAPIClient, "master")
 		Expect(err).ToNot(HaveOccurred())
