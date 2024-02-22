@@ -4,9 +4,10 @@
   remote_user: kni
   vars:
     kubeconfig: /home/kni/clusterconfigs/helix39/auth/kubeconfig
-  tasks: 
+    shared_dir: /tmp/secret
+  tasks:
     - name: verify ginkgo is installed
-      ansible.builtin.shell: chdir=/home/kni/eco-gosystem/scripts ./install-ginkgo.sh
+      ansible.builtin.shell: cd {{ shared_dir }}/eco-gosystem/scripts ./install-ginkgo.sh
 
     - name: run single powermanagement test
       ansible.builtin.shell: cd /home/kni/eco-gosystem/tests/ranfunc/powermanagement && ginkgo --focus="verifies expected kernel parameters with no workload hints specified in PerformanceProfile" > /home/kni/job_log.yaml
