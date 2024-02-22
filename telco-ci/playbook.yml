@@ -6,10 +6,11 @@
     kubeconfig: /home/kni/clusterconfigs/helix39/auth/kubeconfig
     shared_dir: /tmp/secret
     repo_folder: /home/kni/eco-gosystem
+    ecogosystem_repo: "https://github.com/shaior/eco-gosystem.git"
   tasks: 
-    - name: clone git 
+    - name: clone eco-gosystem git repo
       ansible.builtin.git:
-        repo: "https://github.com/shaior/eco-gosystem.git"
+        repo: "{{ ecogosystem_repo }}"
         dest: "{{ repo_folder }}"
         version: telco-ci-init
 
@@ -17,7 +18,7 @@
       ansible.builtin.shell: cd {{ repo_folder }}/scripts && ./install-ginkgo.sh
 
     - name: run single powermanagement test
-      ansible.builtin.shell: cd {{ repo_folder }}/tests/ranfunc/powermanagement && ginkgo --focus="verifies expected kernel parameters with no workload hints specified in PerformanceProfile" > /home/kni/job_log.yaml
+      ansible.builtin.shell: cd {{ repo_folder }}/tests/ranfunc/powermanagement && ginkgo --focus="verifies expected kernel parameters with no workload hints specified in PerformanceProfile"
       environment:
         KUBECONFIG_SPOKE1: "{{ kubeconfig }}"
         KUBECONFIG: "{{ kubeconfig }}"
