@@ -2,6 +2,7 @@ package powermanagement
 
 import (
 	"fmt"
+	"reflect"
 	"regexp"
 	"strings"
 	"time"
@@ -53,7 +54,14 @@ var _ = Describe("Per-Core Runtime Tuning of power states - CRI-O", Ordered, fun
 	})
 
 	AfterAll(func() {
-		// Restore performance profile to original spec after each test
+		// Restore performance profile spec to original spec after each test only if the current performance profile spec
+		// is different from the origin performance profile spec.
+		if reflect.DeepEqual(perfProfile.Definition.Spec, originPerformanceProfileSpec) {
+			glog.V(100).Infof("Current performance profile is equal to original performance profile spec, no update is needed.")
+
+			return
+		}
+
 		glog.V(100).Infof("Restore performance profile to original specs")
 		perfProfile.Definition.Spec = originPerformanceProfileSpec
 
