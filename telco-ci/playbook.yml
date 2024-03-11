@@ -3,7 +3,7 @@
   hosts: kniqe41
   remote_user: kni
   vars:
-    kubeconfig: /home/kni/clusterconfigs/helix39/auth/kubeconfig
+    kubeconfig: /home/kni/clusterconfigs/helix41/auth/kubeconfig
     shared_dir: /tmp/secret
     repo_folder: /home/kni/eco-gosystem
     ecogosystem_repo: "https://github.com/shaior/eco-gosystem.git"
@@ -23,3 +23,4 @@
         KUBECONFIG_SPOKE1: "{{ kubeconfig }}"
         KUBECONFIG: "{{ kubeconfig }}"
         ECO_VERBOSE_LEVEL: 100
+      ignore_errors: true
