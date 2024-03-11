@@ -1,6 +1,7 @@
 ---
 - name: trigger telco-ran jenkins job
-  hosts: localhost
+  hosts: kniqe41
+  remote_user: kni
   vars:
     username: "sobarzan"
     token: "1100801d3ed94b3864667929f4736f8ed8"
