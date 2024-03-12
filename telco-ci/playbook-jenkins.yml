@@ -39,7 +39,7 @@
         method: GET
         user: "{{ username }}"
         password: "{{ token }}"
-        register: in_progress
+      register: in_progress
       until: in_progress.json.inProgress == "false"
       retries: 200
       delay: 60 # total of 3hrs 20 minutes.
