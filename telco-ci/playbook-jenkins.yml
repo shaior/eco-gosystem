@@ -13,6 +13,7 @@
         user: "{{ username }}"
         password: "{{ token }}"
         force_basic_auth: true
+        status_code: [200,201]
         body: "LOCK_LABEL_HOST=registry.kni-qe-11.lab.eng.rdu2.redhat.com&\
               VERSION=4.14&\
               DU_PULL_SPEC=quay.io/openshift-release-dev/ocp-release:4.14.10-x86_64&\
@@ -22,7 +23,7 @@
               ZTP_POLICIES_REPO_BRANCH=helix59-4.14-acmgen-retest1"
         headers:
           Content-Type: application/x-www-form-urlencoded
-      register: queue_build_number
+      register: queue_build_number 
 
     - name: get result status code
       ansible.builtin.uri:
