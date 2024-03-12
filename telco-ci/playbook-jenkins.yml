@@ -6,15 +6,47 @@
     username: "sobarzan"
     token: "1100801d3ed94b3864667929f4736f8ed8"
   tasks:
-    - name: trigger telco-ran jenkins job 
-      ansible.builtin.shell: 
-        curl -k https://auto-jenkins-csb-kniqe.apps.ocp-c1.prod.psi.redhat.com/job/ocp-far-edge-vran-deployment/buildWithParameters \
-         --user {{ username }}:{{ token }} \
-         --data LOCK_LABEL_HOST=registry.kni-qe-11.lab.eng.rdu2.redhat.com \
-         --data VERSION=4.14 \
-         --data DU_PULL_SPEC=quay.io/openshift-release-dev/ocp-release:4.14.10-x86_64 \
-         --data ZTP_VERSION=4.14 \
-         --data SPOKE_OPERATOR_IMAGES_SOURCE=brew \
-         --data UPLOAD_METRICS=false \
-         --data ZTP_SITECONFIG_REPO_BRANCH=helix59-4.14-acmgen-retest1 \
-         --data ZTP_POLICIES_REPO_BRANCH=helix59-4.14-acmgen-retest1 
+    - name: trigger jenkins job and wait for it to succeed
+      ansible.builtin.uri:
+        url: "https://auto-jenkins-csb-kniqe.apps.ocp-c1.prod.psi.redhat.com/job/ocp-far-edge-vran-deployment/buildWithParameters/"
+        method: POST
+        user: "{{ username }}"
+        password: "{{ token }}"
+        force_basic_auth: true
+        body: "LOCK_LABEL_HOST=registry.kni-qe-11.lab.eng.rdu2.redhat.com&\
+              VERSION=4.14&\
+              DU_PULL_SPEC=quay.io/openshift-release-dev/ocp-release:4.14.10-x86_64&\
+              ZTP_VERSION=4.14&SPOKE_OPERATOR_IMAGES_SOURCE=brew&\
+              UPLOAD_METRICS=false&\
+              ZTP_SITECONFIG_REPO_BRANCH=helix59-4.14-acmgen-retest1&\
+              ZTP_POLICIES_REPO_BRANCH=helix59-4.14-acmgen-retest1"
+        headers:
+          Content-Type: application/x-www-form-urlencoded
+      register: queue_build_number
+
+    - name: get result status code
+      ansible.builtin.uri:
+        url: '{{ queue_build_number.location }}/api/json'
+        method: GET
+        user: "{{ username }}"
+        password: "{{ token }}"
+      register: jenkins_build_number
+
+    - name: get jenkins status code
+      ansible.builtin.uri:
+        url: "{{ jenkins_build_number.json.executable.url }}/api/json"
+        method: GET
+        user: "{{ username }}"
+        password: "{{ token }}"
+        register: in_progress
+      until: in_progress.json.inProgress == "false"
+      retries: 200
+      delay: 60 # total of 3hrs 20 minutes.
+
+    - name: fail if result is not SUCCESS
+      ansible.builtin.fail:
+        msg: job failed
+      when: in_progress.result != "SUCCESS"
+
+
+    
